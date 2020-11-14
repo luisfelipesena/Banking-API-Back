@@ -15,7 +15,19 @@ const schema = {
 		cpf varchar(255),
 		tel varchar(255),
 		endereco varchar(255),
-	)`,
+		cobrancasFeitas bigint default 0,
+		cobrancasRecebidas bigint default 0,
+		estaInadimplente boolean default false	
+	);`,
+
+	3: `CREATE TABLE IF NOT EXISTS cobrancas (
+		idDoCliente varchar(255),
+		descricao varchar(255),
+		valor bigint,
+		vencimento varchar(255),
+		linkDoBoleto varchar(255) default null,
+		status varchar(255),
+	);`,
 };
 
 const up = async (number = null) => {
