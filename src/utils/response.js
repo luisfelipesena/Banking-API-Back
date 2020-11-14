@@ -3,7 +3,7 @@ const response = (ctx, code, dados) => {
 	ctx.status = code;
 	ctx.body = {
 		status,
-		dados: status === 'sucesso' ? dados : { mensagem: dados },
+		dados: dados,
 	};
 };
 
