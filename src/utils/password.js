@@ -6,7 +6,7 @@ const comparison = async (password, hash) => {
 };
 
 const encrypt = async (password) => {
-	const hash = await bycript.encrypt(password, 10);
+	const hash = await bycript.hash(password, 10);
 	return hash;
 };
 
