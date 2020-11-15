@@ -13,20 +13,19 @@ const schema = {
 		nome varchar(255),
 		email varchar(255),
 		cpf varchar(255),
-		tel varchar(255),
-		endereco varchar(255),
-		cobrancasFeitas bigint default 0,
-		cobrancasRecebidas bigint default 0,
-		estaInadimplente boolean default false	
+		tel varchar(255)	
 	);`,
 
 	3: `CREATE TABLE IF NOT EXISTS cobrancas (
 		idDoCliente varchar(255),
 		descricao varchar(255),
 		valor bigint,
+		cobrancasFeitas bigint default 0,
+		cobrancasRecebidas bigint default 0,
 		vencimento varchar(255),
 		linkDoBoleto varchar(255) default null,
-		status varchar(255),
+		estaInadimplente boolean default false,
+		status varchar(255)
 	);`,
 };
 
