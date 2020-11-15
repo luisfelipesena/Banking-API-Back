@@ -11,16 +11,41 @@ const getClientByEmail = async (email) => {
 	return result.rows.shift();
 };
 
-const createClient = async (props) => {
-	const { nome, email, cpf, tel, endereco } = props;
-	const query = `INSERT INTO clients (
-					nome, email, cpf, tel, endereco
-					) VALUES ($1,$2,$3) RETURNING *`;
+const getClientById = async (id) => {
+	const query = `SELECT * FROM clients
+					WHERE id=$1`;
 	const result = await db.query({
 		text: query,
-		values: [nome, email, cpf, tel, endereco],
+		values: [id],
+	});
+
+	return result.rows.shift();
+};
+
+const createClient = async (props) => {
+	const { nome, email, cpf, tel } = props;
+	const query = `INSERT INTO clients (
+					nome, email, cpf, tel
+					) VALUES ($1,$2,$3,$4) RETURNING *`;
+	const result = await db.query({
+		text: query,
+		values: [nome, email, cpf, tel],
 	});
 	return result.rows.shift();
 };
 
-module.exports = { getClientByEmail, createClient };
+const editClient = async (client) => {
+	const { id, nome, cpf, email, tel } = client;
+	const query = `UPDATE clients SET nome = $1,
+					cpf = $2,
+					email = $3,
+					tel=$4 WHERE id = $5
+					RETURNING *`;
+	const result = await db.query({
+		text: query,
+		values: [nome, cpf, email, tel, id],
+	});
+	return result.rows.shift();
+};
+
+module.exports = { getClientByEmail, getClientById, createClient, editClient };
