@@ -2,8 +2,9 @@ const response = require('../utils/response');
 const UsersRepository = require('../repositories/users');
 
 const createUser = async (ctx) => {
-	const { email = null, senha = null, nome = null } = ctx.request.body;
-	if (!email || !senha || !nome) {
+	const { email = null, nome = null } = ctx.request.body;
+	const { hash = null } = ctx.state;
+	if (!email || !nome || !hash) {
 		return response(ctx, 400, { mensagem: 'Cadastro mal formatado' });
 	}
 
@@ -13,7 +14,11 @@ const createUser = async (ctx) => {
 		return response(ctx, 400, { mensagem: 'Usuário já existente' });
 	}
 
-	const result = await UsersRepository.createUser(nome, email, senha);
+	const result = await UsersRepository.createUser({
+		nome,
+		email,
+		senha: hash,
+	});
 	return response(ctx, 201, { id: result?.id });
 };
 
