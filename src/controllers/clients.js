@@ -7,10 +7,9 @@ const createClient = async (ctx) => {
 		cpf = null,
 		nome = null,
 		tel = null,
-		endereco = null,
 	} = ctx.request.body;
 
-	if (!email || !cpf || !nome || !tel || !endereco) {
+	if (!email || !cpf || !nome || !tel) {
 		return response(ctx, 400, { mensagem: 'Cadastro mal formatado' });
 	}
 
@@ -20,14 +19,50 @@ const createClient = async (ctx) => {
 		return response(ctx, 400, { mensagem: 'Cliente já existente' });
 	}
 
-	const result = await ClientRepository.createClient(
+	const result = await ClientRepository.createClient({
 		nome,
 		email,
 		cpf,
 		tel,
-		endereco
-	);
+	});
 	return response(ctx, 201, { id: result?.id });
 };
 
-module.exports = { createClient };
+const editClient = async (ctx) => {
+	const {
+		id = null,
+		nome = null,
+		cpf = null,
+		email = null,
+		tel = null,
+	} = ctx.request.body;
+
+	if (!id || (!nome && !cpf && !email && !tel)) {
+		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
+	}
+
+	const oldClient = await ClientRepository.getClientById(id);
+	if (oldClient) {
+		const newClient = {
+			...oldClient,
+			nome,
+			cpf,
+			email,
+			tel,
+		};
+
+		const result = await ClientRepository.editClient(newClient);
+		if (result) {
+			return response(ctx, 200, {
+				id: result.id,
+				nome: result.nome,
+				cpf: result.cpf,
+				email: result.email,
+			});
+		}
+	}
+
+	return response(ctx, 404, { message: 'Cliente não encontrado' });
+};
+
+module.exports = { createClient, editClient };
