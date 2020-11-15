@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const response = require('../utils/response');
 const { comparison } = require('../utils/password');
-const UsersRepository = require('./users');
+const UsersRepository = require('../repositories/users');
 require('dotenv').config();
 
 const authentication = async (ctx) => {
@@ -11,8 +11,9 @@ const authentication = async (ctx) => {
 	}
 
 	const existingUser = await UsersRepository.getUserByEmail(email);
+
 	if (existingUser) {
-		const comparacao = await comparison(password, user.senha);
+		const comparacao = await comparison(senha, existingUser.senha);
 		if (comparacao) {
 			const token = await jwt.sign(
 				{ id: existingUser.id, email: existingUser.email },
