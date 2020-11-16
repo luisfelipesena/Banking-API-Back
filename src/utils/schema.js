@@ -10,6 +10,7 @@ const schema = {
 
 	2: `CREATE TABLE IF NOT EXISTS clients (
 		id serial,
+		userId varchar(255),
 		nome varchar(255),
 		email varchar(255),
 		cpf varchar(255),
