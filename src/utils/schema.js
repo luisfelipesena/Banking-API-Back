@@ -21,11 +21,9 @@ const schema = {
 		idDoCliente varchar(255),
 		descricao varchar(255),
 		valor bigint,
-		cobranca bigint,
 		vencimento varchar(255),
-		linkDoBoleto varchar(255),
-		validade varchar(255),
-		status varchar(255)
+		linkDoBoleto varchar(255) default null,
+		status varchar(255) default 'aguardando'
 	);`,
 };
 
