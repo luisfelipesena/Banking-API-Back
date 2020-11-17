@@ -10,4 +10,16 @@ const getChargesById = async (id) => {
 	return result.rows;
 };
 
-module.exports = { getChargesById };
+const createCharge = async (props) => {
+	const { idDoCliente, descricao, valor, vencimento } = props;
+	const query = `INSERT INTO cobrancas 
+					(idDoCliente,descricao,valor,vencimento)
+					VALUES ($1,$2,$3,$4) RETURNING *`;
+	const result = await db.query({
+		text: query,
+		values: [idDoCliente, descricao, valor, vencimento],
+	});
+	return result.rows.shift();
+};
+
+module.exports = { getChargesById, createCharge };
