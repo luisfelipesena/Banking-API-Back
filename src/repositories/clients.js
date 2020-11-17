@@ -23,13 +23,13 @@ const getClientById = async (id) => {
 };
 
 const createClient = async (props) => {
-	const { nome, email, cpf, tel, id } = props;
+	const { nome, email, cpf, tel, userId } = props;
 	const query = `INSERT INTO clients (
 					nome, email, cpf, tel, userId
-					) VALUES ($1,$2,$3,$4.$5) RETURNING *`;
+					) VALUES ($1,$2,$3,$4,$5) RETURNING *`;
 	const result = await db.query({
 		text: query,
-		values: [nome, email, cpf, tel, id],
+		values: [nome, email, cpf, tel, userId],
 	});
 	return result.rows.shift();
 };
@@ -49,18 +49,15 @@ const editClient = async (client) => {
 };
 
 const listClients = async (props) => {
-	const { offset, clientesPorPagina } = props;
-	const query = `SELECT cl.nome, cl.email, co.cobrancasFeitas,
-					co.cobrancasRecebidas, co.estaInadimplente FROM clients as cl
-					INNERJOIN cobrancas as co
-					INNERJOIN users as us
-					WHERE cl.id = co.idDoCliente AND us.id = cl.userId
-					ORDER BY cl.id asc
-					OFFSET=$1
-					LIMIT=$2`;
+	const { offset, clientesPorPagina, id } = props;
+	const query = `SELECT * FROM clients
+					WHERE userId=$1
+					OFFSET $2
+					LIMIT $3
+					`;
 	const result = await db.query({
 		text: query,
-		values: [offset, clientesPorPagina],
+		values: [id, Number(offset), Number(clientesPorPagina)],
 	});
 	return result.rows;
 };
