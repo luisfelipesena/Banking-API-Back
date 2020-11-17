@@ -1,5 +1,6 @@
 const response = require('../utils/response');
 const ClientRepository = require('../repositories/clients');
+const ChargesController = require('./cobrancas');
 
 const createClient = async (ctx) => {
 	const {
@@ -9,9 +10,9 @@ const createClient = async (ctx) => {
 		tel = null,
 	} = ctx.request.body;
 
-	const { id } = ctx.state;
+	const { id = null } = ctx.state; // Esse Id é do usuário Logado no momento
 
-	if (!email || !cpf || !nome || !tel) {
+	if (!email || !cpf || !nome || !tel || !id) {
 		return response(ctx, 400, { mensagem: 'Cadastro mal formatado' });
 	}
 
@@ -26,7 +27,7 @@ const createClient = async (ctx) => {
 		email,
 		cpf,
 		tel,
-		id,
+		userId: id,
 	});
 	return response(ctx, 201, { id: result?.id });
 };
@@ -69,16 +70,40 @@ const editClient = async (ctx) => {
 	return response(ctx, 404, { message: 'Cliente não encontrado' });
 };
 
-const listClients = async (ctx) => {
-	const { clientesPorPagina = null, offset = null } = ctx.params;
-	if (!clientesPorPagina || !offset) {
-		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
+const listOrSearchClients = async (ctx) => {
+	const { clientesPorPagina = null, offset = null, busca = null } = ctx.query;
+	const { id } = ctx.state;
+	if (clientesPorPagina && offset && !busca) {
+		const result = await ClientRepository.listClients({
+			clientesPorPagina,
+			offset,
+			id,
+		});
+		if (result) {
+			const newResult = await Promise.all(
+				result.map(async (client) => {
+					const {
+						cobrancasFeitas,
+						cobrancasRecebidas,
+						estaInadimplente,
+					} = await ChargesController.calculateCharges(client.id);
+
+					return {
+						nome: client.nome,
+						email: client.email,
+						cobrancasFeitas,
+						cobrancasRecebidas,
+						estaInadimplente,
+					};
+				})
+			);
+
+			return response(ctx, 200, { clientes: newResult });
+		}
+	} else if (clientesPorPagina && offset && busca) {
 	}
 
-	const clients = await ClientRepository.listClients({
-		clientesPorPagina,
-		offset,
-	});
+	return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
 };
 
-module.exports = { createClient, editClient, listClients };
+module.exports = { createClient, editClient, listOrSearchClients };
