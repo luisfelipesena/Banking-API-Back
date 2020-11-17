@@ -73,34 +73,43 @@ const editClient = async (ctx) => {
 const listOrSearchClients = async (ctx) => {
 	const { clientesPorPagina = null, offset = null, busca = null } = ctx.query;
 	const { id } = ctx.state;
-	if (clientesPorPagina && offset && !busca) {
+	if (clientesPorPagina && offset) {
 		const result = await ClientRepository.listClients({
 			clientesPorPagina,
 			offset,
 			id,
 		});
 		if (result) {
-			const newResult = await Promise.all(
-				result.map(async (client) => {
-					const {
-						cobrancasFeitas,
-						cobrancasRecebidas,
-						estaInadimplente,
-					} = await ChargesController.calculateCharges(client.id);
+			if (!busca) {
+				const newResult = await Promise.all(
+					result.map(async (client) => {
+						const {
+							cobrancasFeitas,
+							cobrancasRecebidas,
+							estaInadimplente,
+						} = await ChargesController.calculateCharges(client.id);
 
-					return {
-						nome: client.nome,
-						email: client.email,
-						cobrancasFeitas,
-						cobrancasRecebidas,
-						estaInadimplente,
-					};
-				})
-			);
+						return {
+							nome: client.nome,
+							email: client.email,
+							cobrancasFeitas,
+							cobrancasRecebidas,
+							estaInadimplente,
+						};
+					})
+				);
 
-			return response(ctx, 200, { clientes: newResult });
+				return response(ctx, 200, { clientes: newResult });
+			} else {
+				const newResult = result.filter(
+					(client) =>
+						client.nome.includes(busca) ||
+						client.email.includes(busca) ||
+						client.cpf.includes(busca)
+				);
+				return response(ctx, 200, { clientes: newResult });
+			}
 		}
-	} else if (clientesPorPagina && offset && busca) {
 	}
 
 	return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
