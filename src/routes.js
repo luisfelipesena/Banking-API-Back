@@ -17,9 +17,9 @@ router.post('/usuarios', encryptMiddleware, usersController.createUser);
 router.post('/clientes', sessionMiddleware, clientsController.createClient);
 router.put('/clientes', sessionMiddleware, clientsController.editClient);
 router.get(
-	'//clientes?clientesPorPagina=:clientesPorPagina&offset=:offset',
+	'/clientes',
 	sessionMiddleware,
-	clientsController.listClients
+	clientsController.listOrSearchClients
 );
 
 module.exports = router;
