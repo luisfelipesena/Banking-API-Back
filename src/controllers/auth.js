@@ -19,7 +19,7 @@ const authentication = async (ctx) => {
 				{ id: existingUser.id, email: existingUser.email },
 				process.env.JWT_SECRET || 'cubosacademy',
 				{
-					expiresIn: `1hr`,
+					expiresIn: `2hr`,
 				}
 			);
 
