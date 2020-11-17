@@ -6,6 +6,7 @@ const authenticationController = require('./controllers/auth');
 
 const usersController = require('./controllers/users');
 const clientsController = require('./controllers/clients');
+const chargesController = require('./controllers/cobrancas');
 
 const sessionMiddleware = require('./middlewares/session');
 const encryptMiddleware = require('./middlewares/encrypt');
@@ -21,5 +22,7 @@ router.get(
 	sessionMiddleware,
 	clientsController.listOrSearchClients
 );
+
+router.post('/cobrancas', sessionMiddleware, chargesController.createChange);
 
 module.exports = router;
