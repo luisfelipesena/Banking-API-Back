@@ -15,13 +15,13 @@ const getReports = async (ctx) => {
 	] = [0, 0, 0, 0, 0, 0];
 
 	charges.forEach((charge) => {
-		const { valor, vencimento, status } = charge;
-		if (status === 'pago') {
+		const { valor, vencimento, data_de_pagamento } = charge;
+		if (data_de_pagamento) {
 			qtdCobrancasPagas++;
 			saldoEmConta += Number(valor);
 		} else if (+vencimento < +new Date()) {
 			qtdCobrancasVencidas++;
-		} else if (status == 'aguardando') {
+		} else {
 			qtdCobrancasPrevistas++;
 		}
 	});

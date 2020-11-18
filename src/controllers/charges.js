@@ -12,10 +12,12 @@ const calculateCharges = async (id) => {
 	if (charges) {
 		charges.forEach((charge) => {
 			cobrancasFeitas += Number(charge.valor);
-			if (charge.status === 'pago') {
+			if (charge.data_de_pagamento) {
 				cobrancasRecebidas += Number(charge.valor);
-			}
-			if (+charge.vencimento < +new Date() && charge.status !== 'pago') {
+			} else if (
+				+charge.vencimento < +new Date() &&
+				!charge.data_de_pagamento
+			) {
 				estaInadimplente = true;
 			}
 		});
@@ -112,8 +114,14 @@ const listCharges = async (ctx) => {
 	if (charges) {
 		return response(ctx, 200, {
 			cobrancas: charges.map((c) => {
-				let status = c.status;
-				if (+c.vencimento < +new Date() && c.status !== 'pago') {
+				let status = 'aguardando';
+				if (c.data_de_pagamento) {
+					status = 'pago';
+				}
+				if (
+					+c.vencimento < +new Date() &&
+					c.data_de_pagamento === null
+				) {
 					status = 'vencido';
 				}
 				return {
@@ -137,19 +145,29 @@ const payCharge = async (ctx) => {
 		const client = await ClientsRepository.getClientById(
 			charge.id_do_cliente
 		);
-		if (+charge.vencimento < +new Date()) {
+		if (+charge.vencimento < +new Date() && !charge.data_de_pagamento) {
 			return response(ctx, 400, { mensagem: 'Boleto vencido' });
-		} else if (charge.status == 'pago') {
+		} else if (charge.data_de_pagamento) {
 			return response(ctx, 400, { mensagem: 'Boleto já foi pago' });
 		}
-		const payment = await ChargesRepository.payCharge(idDaCobranca);
+		const dataAtual = `${new Date().toLocaleDateString()}`
+			.split('/')
+			.reverse()
+			.join('-');
+
+		const payment = await ChargesRepository.payCharge(
+			dataAtual,
+			idDaCobranca
+		);
 		if (payment) {
 			sendEmail(
 				client.email,
 				'Pagamento Feito com Sucesso',
 				Emails.paymentSuccess(client.nome, charge.valor, charge.id)
 			);
-			return response(ctx, 200, { status: payment.status });
+			return response(ctx, 200, {
+				mensagem: 'Cobrança paga com sucesso',
+			});
 		}
 	}
 

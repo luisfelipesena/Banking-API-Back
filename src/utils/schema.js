@@ -24,7 +24,7 @@ const schema = {
 		valor bigint not null,
 		vencimento date not null,
 		link_do_boleto varchar(255) default null,
-		status varchar(255) default 'aguardando'
+		data_de_pagamento date default null
 	);`,
 };
 

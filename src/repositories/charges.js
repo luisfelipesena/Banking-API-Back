@@ -64,13 +64,13 @@ const inserirLinkBoleto = async (link, id) => {
 	return result.rows.shift();
 };
 
-const payCharge = async (id) => {
+const payCharge = async (date, id) => {
 	const query = `UPDATE cobrancas
-					SET status='pago'
-					WHERE id=$1 RETURNING *`;
+					SET data_de_pagamento=$1
+					WHERE id=$2 RETURNING *`;
 	const result = await db.query({
 		text: query,
-		values: [id],
+		values: [date, id],
 	});
 
 	return result.rows.shift();
