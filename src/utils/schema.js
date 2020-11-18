@@ -3,26 +3,26 @@ const db = require('./database');
 const schema = {
 	1: `CREATE TABLE IF NOT EXISTS users (
 		id serial,
-		nome varchar(255),
-		email varchar(255),
-		senha varchar(255)
+		nome varchar(255) not null,
+		email varchar(255) not null,
+		senha varchar(255) not null
 	);`,
 
 	2: `CREATE TABLE IF NOT EXISTS clients (
 		id serial,
-		user_id varchar(255),
-		nome varchar(255),
-		email varchar(255),
-		cpf varchar(255),
-		tel varchar(255)	
+		user_id varchar(255) not null,
+		nome varchar(255) not null,
+		email varchar(255) not null,
+		cpf varchar(255) not null,
+		tel varchar(255) not null	
 	);`,
 
 	3: `CREATE TABLE IF NOT EXISTS cobrancas (
 		id serial,
-		id_do_cliente varchar(255),
-		descricao varchar(255),
-		valor bigint,
-		vencimento date,
+		id_do_cliente varchar(255) not null,
+		descricao varchar(255) not null,
+		valor bigint not null,
+		vencimento date not null,
 		link_do_boleto varchar(255) default null,
 		status varchar(255) default 'aguardando'
 	);`,
