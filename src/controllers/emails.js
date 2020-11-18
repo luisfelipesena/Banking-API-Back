@@ -319,7 +319,7 @@ const newUser = (name) => {
 		</html>`;
 };
 
-const newCharge = (name, cpf, tel, idDoBoleto) => {
+const newCharge = (name, cpf, tel) => {
 	return `<!doctype html>
 	<html>
 	  <head>

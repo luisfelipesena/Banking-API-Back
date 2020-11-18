@@ -77,7 +77,7 @@ const createCharge = async (ctx) => {
 			sendEmail(
 				email,
 				'Boleto Gerado com sucesso',
-				Emails.newCharge(nome, cpf, tel, createCharge.id)
+				Emails.newCharge(nome, cpf, tel)
 			);
 
 			return response(ctx, 201, {
