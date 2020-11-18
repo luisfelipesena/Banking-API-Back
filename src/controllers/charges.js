@@ -48,9 +48,12 @@ const createCharge = async (ctx) => {
 		return response(ctx, 400, { mensagem: 'Valor mal formatado' });
 	}
 
-	const { nome, email, cpf, tel } = await ClientsRepository.getClientById(
-		idDoCliente
-	);
+	const client = await ClientsRepository.getClientById(idDoCliente);
+
+	if (!client) {
+		return response(ctx, 400, { mensagem: 'Cliente não encontrado' });
+	}
+	const { nome, email, cpf, tel } = client;
 
 	const transaction = await PagarMe.gerarBoleto({
 		amount: Number(valor),
