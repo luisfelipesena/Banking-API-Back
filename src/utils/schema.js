@@ -10,7 +10,7 @@ const schema = {
 
 	2: `CREATE TABLE IF NOT EXISTS clients (
 		id serial,
-		userId varchar(255),
+		user_id varchar(255),
 		nome varchar(255),
 		email varchar(255),
 		cpf varchar(255),
@@ -18,11 +18,12 @@ const schema = {
 	);`,
 
 	3: `CREATE TABLE IF NOT EXISTS cobrancas (
-		idDoCliente varchar(255),
+		id serial,
+		id_do_cliente varchar(255),
 		descricao varchar(255),
 		valor bigint,
-		vencimento varchar(255),
-		linkDoBoleto varchar(255) default null,
+		vencimento date,
+		link_do_boleto varchar(255) default null,
 		status varchar(255) default 'aguardando'
 	);`,
 };
