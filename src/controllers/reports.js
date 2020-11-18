@@ -1,5 +1,4 @@
 const ChargesRepository = require('../repositories/charges');
-const client = require('../utils/database');
 const response = require('../utils/response');
 const ClientsController = require('./clients');
 
@@ -17,12 +16,13 @@ const getReports = async (ctx) => {
 
 	charges.forEach((charge) => {
 		const { valor, vencimento, status } = charge;
-		qtdCobrancasPrevistas++;
 		if (status === 'pago') {
 			qtdCobrancasPagas++;
 			saldoEmConta += Number(valor);
 		} else if (+vencimento < +new Date()) {
 			qtdCobrancasVencidas++;
+		} else if (status == 'aguardando') {
+			qtdCobrancasPrevistas++;
 		}
 	});
 
