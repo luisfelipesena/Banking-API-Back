@@ -1,10 +1,12 @@
 const ChargesRepository = require('../repositories/charges');
 const ClientsRepository = require('../repositories/clients');
+const { sendEmail } = require('../utils/nodemailer');
+const Emails = require('./emails');
 const PagarMe = require('./pagarme');
 const response = require('../utils/response');
 
 const calculateCharges = async (id) => {
-	const charges = await ChargesRepository.getChargesById(id);
+	const charges = await ChargesRepository.getChargesByClientId(id);
 	let [cobrancasFeitas, cobrancasRecebidas, estaInadimplente] = [0, 0, false];
 
 	if (charges) {
@@ -13,11 +15,10 @@ const calculateCharges = async (id) => {
 			if (charge.status === 'pago') {
 				cobrancasRecebidas += Number(charge.valor);
 			}
+			if (+charge.vencimento < +new Date()) {
+				estaInadimplente = true;
+			}
 		});
-
-		if (cobrancasFeitas > cobrancasRecebidas) {
-			estaInadimplente = true;
-		}
 	}
 	return { cobrancasFeitas, cobrancasRecebidas, estaInadimplente };
 };
@@ -72,6 +73,13 @@ const createCharge = async (ctx) => {
 				transaction.boleto_url, // Caso postback_url -> .postback_url
 				createCharge.id
 			);
+
+			sendEmail(
+				email,
+				'Boleto Gerado com sucesso',
+				Emails.newCharge(nome, cpf, tel, createCharge.id)
+			);
+
 			return response(ctx, 201, {
 				cobranca: { ...result, vencimento: vencimento.slice(0, 10) },
 			});
@@ -121,11 +129,28 @@ const listCharges = async (ctx) => {
 
 const payCharge = async (ctx) => {
 	const { idDaCobranca = null } = ctx.request.body;
-	const payment = await ChargesRepository.payCharge(idDaCobranca);
-	if (payment) {
-		return response(ctx, 200, { status: payment.status });
+	const charge = await ChargesRepository.getChargesById(idDaCobranca);
+	if (charge) {
+		const client = await ClientsRepository.getClientById(
+			charge.id_do_cliente
+		);
+		if (+charge.vencimento < +new Date()) {
+			return response(ctx, 400, { mensagem: 'Boleto vencido' });
+		} else if (charge.status == 'pago') {
+			return response(ctx, 400, { mensagem: 'Boleto já foi pago' });
+		}
+		const payment = await ChargesRepository.payCharge(idDaCobranca);
+		if (payment) {
+			sendEmail(
+				client.email,
+				'Pagamento Feito com Sucesso',
+				Emails.paymentSuccess(client.nome, charge.valor, charge.id)
+			);
+			return response(ctx, 200, { status: payment.status });
+		}
 	}
-	return response(ctx, 404, { mensagem: 'Cobranças não encontradas' });
+
+	return response(ctx, 404, { mensagem: 'Cobrança não encontradas' });
 };
 
 module.exports = { calculateCharges, createCharge, listCharges, payCharge };
