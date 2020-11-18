@@ -45,6 +45,8 @@ const editClient = async (ctx) => {
 
 	if (!id || (!nome && !cpf && !email && !tel)) {
 		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
+	} else if (tel.length !== 14 || cpf.length !== 11) {
+		return response(ctx, 400, { mensagem: 'Informações mal formatadas' });
 	}
 
 	const oldClient = await ClientsRepository.getClientById(id);
