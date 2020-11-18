@@ -165,6 +165,7 @@ const payCharge = async (ctx) => {
 				'Pagamento Feito com Sucesso',
 				Emails.paymentSuccess(client.nome, charge.valor, charge.id)
 			);
+
 			return response(ctx, 200, {
 				mensagem: 'Cobrança paga com sucesso',
 			});
