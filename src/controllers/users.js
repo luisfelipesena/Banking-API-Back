@@ -1,5 +1,7 @@
 const response = require('../utils/response');
 const UsersRepository = require('../repositories/users');
+const { sendEmail } = require('../utils/nodemailer');
+const Emails = require('./emails');
 
 const createUser = async (ctx) => {
 	const { email = null, nome = null } = ctx.request.body;
@@ -19,7 +21,11 @@ const createUser = async (ctx) => {
 		email,
 		senha: hash,
 	});
+
+	sendEmail(email, 'Usuário Criado com sucesso', Emails.newUser(nome));
 	return response(ctx, 201, { id: result?.id });
 };
 
-module.exports = { createUser };
+const passwordRecovery = async (ctx) => {};
+
+module.exports = { createUser, passwordRecovery };
