@@ -23,13 +23,13 @@ const getClientById = async (id) => {
 };
 
 const createClient = async (props) => {
-	const { nome, email, cpf, tel, userId } = props;
+	const { nome, email, cpf, tel, user_id } = props;
 	const query = `INSERT INTO clients (
-					nome, email, cpf, tel, userId
+					nome, email, cpf, tel, user_id
 					) VALUES ($1,$2,$3,$4,$5) RETURNING *`;
 	const result = await db.query({
 		text: query,
-		values: [nome, email, cpf, tel, userId],
+		values: [nome, email, cpf, tel, user_id],
 	});
 	return result.rows.shift();
 };
@@ -51,7 +51,7 @@ const editClient = async (client) => {
 const listClients = async (props) => {
 	const { offset, clientesPorPagina, id } = props;
 	const query = `SELECT * FROM clients
-					WHERE userId=$1
+					WHERE user_id=$1
 					OFFSET $2
 					LIMIT $3
 					`;
@@ -62,10 +62,21 @@ const listClients = async (props) => {
 	return result.rows;
 };
 
+const listAllClients = async (user_id) => {
+	const query = `SELECT * FROM clients
+					WHERE user_id=$1`;
+	const result = await db.query({
+		text: query,
+		values: [user_id],
+	});
+	return result.rows;
+};
+
 module.exports = {
 	getClientByEmail,
 	getClientById,
 	createClient,
 	editClient,
 	listClients,
+	listAllClients,
 };
