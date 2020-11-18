@@ -10,6 +10,16 @@ const getCharges = async () => {
 
 const getChargesById = async (id) => {
 	const query = `SELECT * FROM cobrancas
+					WHERE id=$1`;
+	const result = await db.query({
+		text: query,
+		values: [id],
+	});
+	return result.rows.shift();
+};
+
+const getChargesByClientId = async (id) => {
+	const query = `SELECT * FROM cobrancas
 					WHERE id_do_cliente=$1`;
 	const result = await db.query({
 		text: query,
@@ -67,10 +77,11 @@ const payCharge = async (id) => {
 };
 
 module.exports = {
+	getCharges,
 	getChargesById,
+	getChargesByClientId,
 	getChargesByIdAndQuerys,
 	createCharge,
 	inserirLinkBoleto,
 	payCharge,
-	getCharges,
 };
