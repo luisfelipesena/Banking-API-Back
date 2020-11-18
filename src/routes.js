@@ -15,6 +15,7 @@ const encryptMiddleware = require('./middlewares/encrypt');
 router.post('/auth', authenticationController);
 
 router.post('/usuarios', encryptMiddleware, usersController.createUser);
+router.put('/usuarios', encryptMiddleware, usersController.passwordRecovery); //Modificar
 
 router.post('/clientes', sessionMiddleware, clientsController.createClient);
 router.put('/clientes', sessionMiddleware, clientsController.editClient);
