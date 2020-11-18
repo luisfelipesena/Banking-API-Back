@@ -2,14 +2,14 @@ const db = require('./database');
 
 const schema = {
 	1: `CREATE TABLE IF NOT EXISTS users (
-		id serial,
+		id serial primary key,
 		nome varchar(255) not null,
 		email varchar(255) not null,
 		senha varchar(255) not null
 	);`,
 
 	2: `CREATE TABLE IF NOT EXISTS clients (
-		id serial,
+		id serial primary key,
 		user_id varchar(255) not null,
 		nome varchar(255) not null,
 		email varchar(255) not null,
@@ -18,7 +18,7 @@ const schema = {
 	);`,
 
 	3: `CREATE TABLE IF NOT EXISTS cobrancas (
-		id serial,
+		id serial primary key,
 		id_do_cliente varchar(255) not null,
 		descricao varchar(255) not null,
 		valor bigint not null,
