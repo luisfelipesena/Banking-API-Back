@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
 	host: process.env.MAILTRAP_HOST,
@@ -10,9 +11,9 @@ const transporter = nodemailer.createTransport({
 	},
 });
 
-const sendEmail = async (userName, userEmail, to, subject, html) => {
+const sendEmail = async (to, subject, html) => {
 	const email = await transporter.sendMail({
-		from: `'${userName}' <${userEmail}>`,
+		from: `'Cubos Banking' <cubosbanking@cubos.io>`,
 		to,
 		subject,
 		html,
