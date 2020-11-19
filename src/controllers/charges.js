@@ -58,7 +58,7 @@ const createCharge = async (ctx) => {
 	const { nome, email, cpf, tel } = client;
 
 	const transaction = await PagarMe.gerarBoleto({
-		amount: Number(valor),
+		amount: Number(valor) * 100,
 		nome,
 		email,
 		cpf,
@@ -69,20 +69,20 @@ const createCharge = async (ctx) => {
 		const createCharge = await ChargesRepository.createCharge({
 			idDoCliente,
 			descricao,
-			valor: Number(valor),
+			valor: Number(valor) * 100,
 			vencimento: vencimento.split('/').reverse().join('-'),
 		});
 
 		if (createCharge) {
 			const result = await ChargesRepository.inserirLinkBoleto(
-				transaction.boleto_url, // Caso postback_url -> .postback_url
+				transaction.postback_url,
 				createCharge.id
 			);
 
 			sendEmail(
 				email,
 				'Boleto Gerado com sucesso',
-				Emails.newCharge(nome, cpf, tel)
+				Emails.newCharge(nome, cpf, tel, transaction.postback_url)
 			);
 
 			return response(ctx, 201, {
