@@ -14,7 +14,7 @@ const createClient = async (ctx) => {
 
 	if (!email || !cpf || !nome || !tel || !id) {
 		return response(ctx, 400, { mensagem: 'Cadastro mal formatado' });
-	} else if (tel.length !== 14 || cpf.length !== 11) {
+	} else if (tel.length !== 14 || cpf.length !== 14) {
 		return response(ctx, 400, { mensagem: 'Informações mal formatadas' });
 	}
 
@@ -45,7 +45,7 @@ const editClient = async (ctx) => {
 
 	if (!id || (!nome && !cpf && !email && !tel)) {
 		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
-	} else if (tel.length !== 14 || cpf.length !== 11) {
+	} else if (tel.length !== 14 || cpf.length !== 14) {
 		return response(ctx, 400, { mensagem: 'Informações mal formatadas' });
 	}
 
