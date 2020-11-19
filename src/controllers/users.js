@@ -22,7 +22,7 @@ const createUser = async (ctx) => {
 		senha: hash,
 	});
 
-	sendEmail(email, 'Usuário Criado com sucesso', Emails.newUser(nome));
+	sendEmail(email, 'Usuário criado com sucesso', Emails.newUser(nome));
 	return response(ctx, 201, { id: result?.id });
 };
 
