@@ -29,8 +29,12 @@ const getChargesByClientId = async (id) => {
 };
 
 const getChargesByIdAndQuerys = async (id, offset, limit) => {
-	const query = `SELECT * FROM cobrancas
-					WHERE id_do_cliente=$1
+	const query = `SELECT * FROM cobrancas as co
+					INNER JOIN clients as cl
+					ON co.id_do_cliente = cl.id::varchar
+					INNER JOIN users as us
+					ON us.id::varchar = cl.user_id
+					WHERE us.id=$1
 					OFFSET $2
 					LIMIT $3`;
 	const result = await db.query({
