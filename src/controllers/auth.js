@@ -17,7 +17,7 @@ const authentication = async (ctx) => {
 		if (comparacao) {
 			const token = await jwt.sign(
 				{ id: existingUser.id, email: existingUser.email },
-				process.env.JWT_SECRET || 'cubosacademy',
+				process.env.JWT_SECRET || 'cubosbanking',
 				{
 					expiresIn: `2hr`,
 				}
