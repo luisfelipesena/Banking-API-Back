@@ -6,6 +6,8 @@ Além disso, nesta plataforma os usuários podem ver e buscar clientes, ver e bu
 
 Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/realizando-uma-transacao-de-boleto-bancario)
 
+![vem_pra_cubos](https://s3.amazonaws.com/gupy5/production/companies/300/images/jobs/479550/20200909092032194_socialPicture.jpg)
+
 ## Login do usuário
 
 **URL:** `/auth`
