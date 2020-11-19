@@ -9,7 +9,9 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Login do usuário
 
 **URL:** `/auth`
+
 **Método:** POST
+
 **Entrada:**
 
 ```json=
@@ -34,7 +36,9 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Cadastro do usuário
 
 **URL:** `/usuarios`
+
 **Método:** POST
+
 **Entrada:**
 
 ```json=
@@ -59,8 +63,11 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Criar cliente
 
 **URL:** `/clientes`
+
 **Método:** POST
+
 **Token exigido**
+
 **Entrada:**
 
 ```json=
@@ -86,8 +93,11 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Editar cliente
 
 **URL:** `/clientes`
+
 **Método:** PUT
+
 **Token exigido**
+
 **Entrada:**
 
 ```json=
@@ -122,7 +132,9 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
     -   Offset é equivalente a: "começando pelo ..."
 
 **Método:** GET
+
 **Token exigido**
+
 **Saída:**
 
 ```json=
@@ -157,7 +169,9 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 -   String é a busca a qual o usuário requisitou
 
 **Método:** GET
+
 **Token exigido**
+
 **Saída:**
 
 ```json=
@@ -188,8 +202,11 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Criar Cobrança
 
 **URL:** `/cobrancas`
+
 **Método:** POST
+
 **Token exigido**
+
 **Entrada:**
 
 ```json=
@@ -222,8 +239,11 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Listar Cobranças
 
 **URL:** `/cobrancas?cobrancasPorPagina=:x&offset=:y`
+
 **Método:** GET
+
 **Token exigido**
+
 **Saída de sucesso:**
 
 ```javascript=
@@ -255,8 +275,11 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Pagar Cobrança
 
 **URL:** `/cobrancas`
+
 **Método:** PUT
+
 **Token exigido**
+
 **Entrada:**
 
 ```json=
@@ -279,8 +302,11 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 ## Obter Relatório
 
 **URL:** `/relatorios`
+
 **Método:** GET
+
 **Token exigido**
+
 **Saída de sucesso:**
 
 ```javascript=
