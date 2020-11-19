@@ -58,7 +58,7 @@ const createCharge = async (ctx) => {
 	const { nome, email, cpf, tel } = client;
 
 	const transaction = await PagarMe.gerarBoleto({
-		amount: Number(valor) * 100,
+		amount: Number(valor),
 		nome,
 		email,
 		cpf,
@@ -69,7 +69,7 @@ const createCharge = async (ctx) => {
 		const createCharge = await ChargesRepository.createCharge({
 			idDoCliente,
 			descricao,
-			valor: Number(valor) * 100,
+			valor: Number(valor),
 			vencimento: vencimento.split('/').reverse().join('-'),
 		});
 
