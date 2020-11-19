@@ -1,1 +1,5 @@
-# Desafio 4 - Cubos Academy
+# Desafio 4 - Cubos Academy - Back-end
+
+<br>
+
+## Funcionalidades
