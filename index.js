@@ -11,7 +11,7 @@ server.use(bodyparser());
 server.use(cors());
 server.use(router.routes());
 
-const PORT = process.env.PORT || 8081; // Depois tirar pelo React_App_API_Url
+const PORT = process.env.PORT || 8081;
 server.use((ctx) =>
 	response(ctx, 404, { mensagem: 'Conteúdo não encontrado' })
 );
