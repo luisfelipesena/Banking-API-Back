@@ -102,9 +102,9 @@ const paymentSuccess = (name, valor, id) => {
 					  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
 						<tr>
 						  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-							<p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Seu Pagamento foi concluído, ${name}</p>
+							<h1 style="font-family: sans-serif; font-size: 16px; font-weight: bold; margin: 0; Margin-bottom: 15px;">Seu Pagamento foi concluído com sucesso, ${name}</h1>
 							<p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Seu Boleto:</p>
-							<p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;"> ID: ${id}</p>
+							<p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;"> ID: #${id}</p>
 							<p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Valor: ${
 								valor / 100
 							} reais</p>
@@ -319,7 +319,7 @@ const newUser = (name) => {
 		</html>`;
 };
 
-const newCharge = (name, cpf, tel) => {
+const newCharge = (name, cpf, tel, url) => {
 	return `<!doctype html>
 	<html>
 	  <head>
@@ -433,7 +433,7 @@ const newCharge = (name, cpf, tel) => {
 									  <tbody>
 										<tr>
 										  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;">
-											<a href="http://google.com" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">Abrir Boleto</a></td>
+											<a href="${url}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">Abrir Boleto</a></td>
 										</tr>
 									  </tbody>
 									</table>

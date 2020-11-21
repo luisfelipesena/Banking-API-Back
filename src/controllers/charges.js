@@ -75,18 +75,25 @@ const createCharge = async (ctx) => {
 
 		if (createCharge) {
 			const result = await ChargesRepository.inserirLinkBoleto(
-				transaction.boleto_url, // Caso postback_url -> .postback_url
+				transaction.postback_url,
 				createCharge.id
 			);
 
 			sendEmail(
 				email,
 				'Boleto Gerado com sucesso',
-				Emails.newCharge(nome, cpf, tel)
+				Emails.newCharge(nome, cpf, tel, transaction.postback_url)
 			);
 
 			return response(ctx, 201, {
-				cobranca: { ...result, vencimento: vencimento.slice(0, 10) },
+				cobranca: {
+					idDoCliente: result.id_do_cliente,
+					descricao,
+					valor,
+					vencimento: vencimento.slice(0, 10),
+					linkDoBoleto: result.link_do_boleto,
+					status: result.data_de_pagamento ? 'pago' : 'aguardando',
+				},
 			});
 		}
 	}
@@ -125,11 +132,11 @@ const listCharges = async (ctx) => {
 					status = 'vencido';
 				}
 				return {
-					id_do_cliente: c.id_do_cliente,
+					idDoCliente: c.id_do_cliente,
 					descricao: c.descricao,
 					valor: c.valor,
 					vencimento: c.vencimento.toLocaleDateString(),
-					link_do_boleto: c.link_do_boleto,
+					linkDoBoleto: c.link_do_boleto,
 					status,
 				};
 			}),
