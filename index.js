@@ -11,8 +11,10 @@ server.use(bodyparser());
 server.use(cors());
 server.use(router.routes());
 
-const PORT = process.env.PORT; // Depois tirar pelo React_App_API_Url
+const PORT = process.env.PORT || 8081; // Depois tirar pelo React_App_API_Url
 server.use((ctx) =>
 	response(ctx, 404, { mensagem: 'Conteúdo não encontrado' })
 );
-server.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+server.listen(PORT, '0.0.0.0', null, () =>
+	console.log(`Servidor rodando na porta ${PORT}`)
+);
