@@ -2,7 +2,7 @@ const ChargesRepository = require('../repositories/charges');
 const ClientsRepository = require('../repositories/clients');
 const { sendEmail } = require('../utils/nodemailer');
 const Emails = require('./emails');
-const PagarMe = require('./pagarme');
+const PagarMe = require('../utils/pagarme');
 const response = require('../utils/response');
 
 const calculateCharges = async (id) => {

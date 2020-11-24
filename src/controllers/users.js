@@ -26,6 +26,8 @@ const createUser = async (ctx) => {
 	return response(ctx, 201, { id: result?.id });
 };
 
-const passwordRecovery = async (ctx) => {};
+const resetPassword = async (ctx) => {
+	
+};
 
 module.exports = { createUser, passwordRecovery };
