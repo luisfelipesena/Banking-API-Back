@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "banking-api-back",
   "version": "1.0.0",
   "description": "",
@@ -17,4 +18,47 @@
     "url": "https://github.com/luisfelipesena/Banking-API-Back/issues"
   },
   "homepage": "https://github.com/luisfelipesena/Banking-API-Back#readme"
+=======
+	"name": "banking-api-back",
+	"version": "1.0.0",
+	"description": "api do cubos banking - backend",
+	"main": "index.js",
+	"engines": {
+		"node": "14.15.0"
+	},
+	"dependencies": {
+		"@koa/cors": "^3.1.0",
+		"bcryptjs": "^2.4.3",
+		"dotenv": "^8.2.0",
+		"jsonwebtoken": "^8.5.1",
+		"koa": "^2.13.0",
+		"koa-bodyparser": "^4.3.0",
+		"koa-router": "^10.0.0",
+		"nodemailer": "^6.4.16",
+		"pagarme": "^4.13.0",
+		"pg": "^8.5.1"
+	},
+	"devDependencies": {
+		"eslint": "^7.14.0",
+		"eslint-config-airbnb-base": "^14.2.1",
+		"eslint-config-prettier": "^6.15.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-prettier": "^3.1.4",
+		"nodemon": "^2.0.6",
+		"prettier": "^2.2.0"
+	},
+	"scripts": {
+		"start": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/luisfelipesena/Banking-API-Back.git"
+	},
+	"author": "Luis Felipe",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/luisfelipesena/Banking-API-Back/issues"
+	},
+	"homepage": "https://github.com/luisfelipesena/Banking-API-Back#readme"
+>>>>>>> b293fa9d5ba565d49c75f0bb50ca6eb17e5ce31c
 }
