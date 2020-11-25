@@ -1,24 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "banking-api-back",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/luisfelipesena/Banking-API-Back.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/luisfelipesena/Banking-API-Back/issues"
-  },
-  "homepage": "https://github.com/luisfelipesena/Banking-API-Back#readme"
-=======
 	"name": "banking-api-back",
 	"version": "1.0.0",
 	"description": "api do cubos banking - backend",
@@ -60,5 +40,4 @@
 		"url": "https://github.com/luisfelipesena/Banking-API-Back/issues"
 	},
 	"homepage": "https://github.com/luisfelipesena/Banking-API-Back#readme"
->>>>>>> b293fa9d5ba565d49c75f0bb50ca6eb17e5ce31c
 }
