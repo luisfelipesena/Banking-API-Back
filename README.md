@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# Desafio 4 - Cubos Academy
+=======
 # Desafio 4 - Cubos Academy - Back-end
 
 Esse desafio consiste na criação de uma API bem trabalhada de um banking o qual terceiriza um sistema de cobranças. Os usuários, após se cadastrarem na plataforma, podem cadastrar os clientes deles e criar uma cobrança para que os clientes paguem. Os clientes recebem um email com o link do boleto para pagar.
@@ -327,3 +330,4 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
     }
 }
 ```
+>>>>>>> b293fa9d5ba565d49c75f0bb50ca6eb17e5ce31c
