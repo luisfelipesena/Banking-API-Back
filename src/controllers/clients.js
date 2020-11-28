@@ -94,6 +94,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 						} = await ChargesController.calculateCharges(client.id);
 
 						return {
+							id: client.id,
 							nome: client.nome,
 							email: client.email,
 							cobrancasFeitas,
