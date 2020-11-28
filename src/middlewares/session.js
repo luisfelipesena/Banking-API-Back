@@ -11,7 +11,10 @@ const verification = async (ctx, next) => {
 	const [, token = null] = authorization.split(' ');
 
 	try {
-		const verification = await jwt.verify(token, process.env.JWT_SECRET);
+		const verification = await jwt.verify(
+			token,
+			process.env.JWT_SECRET || 'cubosbanking'
+		);
 		ctx.state.id = verification.id;
 		ctx.state.email = verification.email;
 	} catch (err) {
