@@ -50,6 +50,17 @@ const editClient = async (client) => {
 
 const listClients = async (props) => {
 	const { offset, clientesPorPagina, id } = props;
+	if (clientesPorPagina === 'all') {
+		const query = `SELECT * FROM clients
+						WHERE user_id=$1
+						OFFSET $2
+						`;
+		const result = await db.query({
+			text: query,
+			values: [id, Number(offset)],
+		});
+		return result.rows;
+	}
 	const query = `SELECT * FROM clients
 					WHERE user_id=$1
 					OFFSET $2
