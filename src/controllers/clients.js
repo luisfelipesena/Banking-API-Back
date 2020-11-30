@@ -97,6 +97,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 							id: client.id,
 							nome: client.nome,
 							email: client.email,
+							telefone: client.tel,
 							cobrancasFeitas,
 							cobrancasRecebidas,
 							estaInadimplente,
