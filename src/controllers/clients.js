@@ -77,11 +77,7 @@ const editClient = async (ctx) => {
 const listOrSearchClients = async (ctx, reports = null) => {
 	const { clientesPorPagina = null, offset = null, busca = null } = ctx.query;
 	const { id } = ctx.state;
-	if (
-		clientesPorPagina &&
-		offset &&
-		!isNaN(Number(clientesPorPagina) && !isNaN(Number(offset)))
-	) {
+	if (clientesPorPagina && offset && !isNaN(Number(offset))) {
 		const result = await ClientsRepository.listClients({
 			clientesPorPagina,
 			offset,
@@ -98,6 +94,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 						} = await ChargesController.calculateCharges(client.id);
 
 						return {
+							id: client.id,
 							nome: client.nome,
 							email: client.email,
 							cobrancasFeitas,
