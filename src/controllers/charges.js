@@ -75,7 +75,7 @@ const createCharge = async (ctx) => {
 
 		if (createCharge) {
 			const result = await ChargesRepository.inserirLinkBoleto(
-				transaction.boleto_url, // Caso postback_url -> .postback_url
+				transaction.postback_url,
 				createCharge.id
 			);
 
