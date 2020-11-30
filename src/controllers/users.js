@@ -23,11 +23,17 @@ const createUser = async (ctx) => {
 	});
 
 	sendEmail(email, 'Usuário criado com sucesso', Emails.newUser(nome));
-	return response(ctx, 201, { id: result?.id });
+	return response(ctx, 201, { id: result.id });
 };
 
 const resetPassword = async (ctx) => {
-	
+	const { password = null } = ctx.request.body;
+	const { hash = null } = ctx.state; 
+	if (!password) {
+		return response(ctx, 404, { mensagem: "Senha não encontrada" });
+	}
+	const userNewEncryptedPassword = await UsersRepository.resetPassword(hash(password));
+	return response(ctx, 200, { userNewEncryptedPassword });
 };
 
-module.exports = { createUser, passwordRecovery };
+module.exports = { createUser, resetPassword };

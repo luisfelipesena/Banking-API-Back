@@ -22,4 +22,14 @@ const createUser = async (props) => {
 	return result.rows.shift();
 };
 
-module.exports = { getUserByEmail, createUser };
+const resetPassword = async (args) => {
+	const { password, userId } = args;
+	const query = `UPDATE users SET senha = $1 WHERE id = $2 RETURNING *`;
+	const result = await db.query({
+		text: query,
+		values: [password, userId]
+	})
+	return result.rows.shift();
+}
+
+module.exports = { getUserByEmail, createUser, resetPassword };
