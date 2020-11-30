@@ -478,7 +478,6 @@ const newCharge = (name, cpf, tel) => {
 };
 
 const resetPassword = (name) => {
-	//Email bonitinho que diz o nome do usuário e cria um link para a página de trocar senha
 	return `<!doctype html>
 		<html>
 		  <head>

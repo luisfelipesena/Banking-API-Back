@@ -31,7 +31,7 @@ const createClient = async (ctx) => {
 		tel,
 		user_id: id,
 	});
-	return response(ctx, 201, { id: result?.id });
+	return response(ctx, 201, { id: result.id });
 };
 
 const editClient = async (ctx) => {
