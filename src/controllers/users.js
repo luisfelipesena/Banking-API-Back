@@ -27,13 +27,13 @@ const createUser = async (ctx) => {
 };
 
 const resetPassword = async (ctx) => {
-	const { password = null } = ctx.request.body;
-	const { hash = null } = ctx.state; 
-	if (!password) {
-		return response(ctx, 404, { mensagem: "Senha não encontrada" });
-	}
-	const userNewEncryptedPassword = await UsersRepository.resetPassword(hash(password));
-	return response(ctx, 200, { userNewEncryptedPassword });
+	const { userId = null } = ctx.request.body;
+	if (!userId) {
+		response(ctx, 404, { mensagem: 'Id não encontrada'})
+	} 
+	const { hash = null } = ctx.state;
+	const result = await UsersRepository.resetPassword({ senha: hash, userId });
+	return response(ctx, 200, { result });
 };
 
 module.exports = { createUser, resetPassword };

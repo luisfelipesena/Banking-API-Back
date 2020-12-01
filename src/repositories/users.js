@@ -23,11 +23,11 @@ const createUser = async (props) => {
 };
 
 const resetPassword = async (args) => {
-	const { password, userId } = args;
+	const { senha, userId } = args;
 	const query = `UPDATE users SET senha = $1 WHERE id = $2 RETURNING *`;
 	const result = await db.query({
 		text: query,
-		values: [password, userId]
+		values: [senha, userId]
 	})
 	return result.rows.shift();
 }
