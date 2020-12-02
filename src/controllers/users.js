@@ -35,7 +35,7 @@ const resetPasswordEmail = async (ctx) => {
 	if (!user) {
 		response(ctx, 404, { mensagem: 'Usuário não encontrado'})
 	}
-	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email));
+	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email, user.id));
 	return response(ctx, 200, { result: true });
 }
 
@@ -45,8 +45,12 @@ const resetPassword = async (ctx) => {
 		response(ctx, 404, { mensagem: 'Id não encontrado'})
 	} 
 	const { hash = null } = ctx.state;
-	const result = await UsersRepository.resetPassword({ senha: hash, userId });
-	return response(ctx, 200, { result });
+	const oldPassword = await UsersRepository.getUserById(userId)
+	const newPassword = await UsersRepository.resetPassword({ senha: hash, userId });
+	if (oldPassword.senha === newPassword.senha) {
+		return response(ctx, 400, { mensagem: "Senha idêntica à anterior"})
+	}
+	return response(ctx, 200, { result: true });
 };
 
 module.exports = { createUser, resetPassword, resetPasswordEmail };
