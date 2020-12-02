@@ -27,12 +27,11 @@ const createUser = async (ctx) => {
 };
 
 const resetPasswordEmail = async (ctx) => {
-	const { userId = null } = ctx.request.body;
-	if (!userId) {
-		response(ctx, 404, { mensagem: 'Id não encontrado'})
+	const { email = null } = ctx.request.body;
+	if (!email) {
+		response(ctx, 404, { mensagem: 'Email não encontrado'})
 	}
-	const user = await UsersRepository.getUserById(userId);
-	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(user.nome));
+	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email));
 	return response(ctx, 200, { result: true });
 }
 
