@@ -31,6 +31,10 @@ const resetPasswordEmail = async (ctx) => {
 	if (!email) {
 		response(ctx, 404, { mensagem: 'Email não encontrado'})
 	}
+	const user = await UsersRepository.getUserByEmail(email);
+	if (!user) {
+		response(ctx, 404, { mensagem: 'Usuário não encontrado'})
+	}
 	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email));
 	return response(ctx, 200, { result: true });
 }
