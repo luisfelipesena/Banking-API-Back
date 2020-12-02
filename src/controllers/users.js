@@ -26,14 +26,24 @@ const createUser = async (ctx) => {
 	return response(ctx, 201, { id: result.id });
 };
 
+const resetPasswordEmail = async (ctx) => {
+	const { userId = null } = ctx.request.body;
+	if (!userId) {
+		response(ctx, 404, { mensagem: 'Id não encontrado'})
+	}
+	const user = await UsersRepository.getUserById(userId);
+	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(user.nome));
+	return response(ctx, 200, { result: true });
+}
+
 const resetPassword = async (ctx) => {
 	const { userId = null } = ctx.request.body;
 	if (!userId) {
-		response(ctx, 404, { mensagem: 'Id não encontrada'})
+		response(ctx, 404, { mensagem: 'Id não encontrado'})
 	} 
 	const { hash = null } = ctx.state;
 	const result = await UsersRepository.resetPassword({ senha: hash, userId });
 	return response(ctx, 200, { result });
 };
 
-module.exports = { createUser, resetPassword };
+module.exports = { createUser, resetPassword, resetPasswordEmail };

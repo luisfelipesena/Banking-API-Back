@@ -10,6 +10,15 @@ const getUserByEmail = async (email) => {
 	return result.rows.shift();
 };
 
+const getUserById = async (id) => {
+	const query = `SELECT * FROM users WHERE id=$1`;
+	const result = await db.query({
+		text: query,
+		values: [id],
+	});
+	return result.rows.shift();
+}
+
 const createUser = async (props) => {
 	const { nome, email, senha } = props;
 	const query = `INSERT INTO users (
@@ -32,4 +41,4 @@ const resetPassword = async (args) => {
 	return result.rows.shift();
 }
 
-module.exports = { getUserByEmail, createUser, resetPassword };
+module.exports = { getUserByEmail, createUser, resetPassword, getUserById };
