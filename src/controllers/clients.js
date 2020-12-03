@@ -110,7 +110,6 @@ const listOrSearchClients = async (ctx, reports = null) => {
 							cobrancasFeitas,
 							cobrancasRecebidas,
 							estaInadimplente,
-							data_de_criacao,
 						};
 					})
 				);
