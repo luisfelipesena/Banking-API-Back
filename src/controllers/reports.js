@@ -4,6 +4,7 @@ const ClientsController = require('./clients');
 
 const getReports = async (ctx) => {
 	const clients = await ClientsController.listOrSearchClients(ctx, true);
+	const { periodo } = ctx.params;
 	const charges = await ChargesRepository.getCharges();
 	let [
 		qtdClientesAdimplentes,
