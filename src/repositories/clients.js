@@ -49,7 +49,7 @@ const editClient = async (client) => {
 };
 
 const listClients = async (props) => {
-	const { offset, clientesPorPagina, id } = props;
+	const { offset, clientesPorPagina, id, busca } = props;
 	if (clientesPorPagina === 'all') {
 		const query = `SELECT * FROM clients
 						WHERE user_id=$1
@@ -58,6 +58,17 @@ const listClients = async (props) => {
 		const result = await db.query({
 			text: query,
 			values: [id, Number(offset)],
+		});
+		return result.rows;
+	} else if (busca) {
+		const query = `SELECT * FROM clients
+						WHERE user_id=$1 AND (email LIKE '%${busca}%' OR nome LIKE '%${busca}%' OR cpf LIKE '%${busca}') 
+						OFFSET $2
+						LIMIT $3
+						`;
+		const result = await db.query({
+			text: query,
+			values: [id, Number(offset), Number(clientesPorPagina)],
 		});
 		return result.rows;
 	}

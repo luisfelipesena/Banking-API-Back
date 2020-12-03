@@ -90,6 +90,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 			clientesPorPagina,
 			offset,
 			id,
+			busca,
 		});
 		if (result) {
 			if (!busca) {
@@ -115,13 +116,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 
 				return response(ctx, 200, { clientes: newResult });
 			} else {
-				const newResult = result.filter(
-					(client) =>
-						client.nome.includes(busca) ||
-						client.email.includes(busca) ||
-						client.cpf.includes(busca)
-				);
-				return response(ctx, 200, { clientes: newResult });
+				return response(ctx, 200, { clientes: result });
 			}
 		}
 	} else if (reports) {
