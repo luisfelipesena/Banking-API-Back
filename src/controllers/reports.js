@@ -27,7 +27,15 @@ const getReports = async (ctx) => {
 				new Date(c.data_de_criacao).getFullYear() ===
 				new Date().getFullYear()
 		);
+	} else if (tempT === 'dia') {
+		clients = clients.filter(
+			(c) => new Date(c.data_de_criacao).getDay() === new Date().getDay()
+		);
+		charges = charges.filter(
+			(c) => new Date(c.data_de_criacao).getDay() === new Date().getDay()
+		);
 	}
+
 	let [
 		qtdClientesAdimplentes,
 		qtdClientesInadimplentes,
