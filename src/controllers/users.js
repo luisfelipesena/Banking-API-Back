@@ -2,13 +2,21 @@ const response = require('../utils/response');
 const UsersRepository = require('../repositories/users');
 const { sendEmail } = require('../utils/nodemailer');
 const Emails = require('./emails');
+const { 
+	validateEmail, 
+	validateName, 
+	validateHash,
+	validateId,
+	validadteOldAndNewPassword
+} = require('../helpers/helpers');
 
 const createUser = async (ctx) => {
 	const { email = null, nome = null } = ctx.request.body;
 	const { hash = null } = ctx.state;
-	if (!email || !nome || !hash) {
-		return response(ctx, 400, { mensagem: 'Cadastro mal formatado' });
-	}
+
+	validateHash(ctx, hash);
+	validateEmail(ctx, email);
+	validateName(ctx, nome);
 
 	const existingUser = await UsersRepository.getUserByEmail(email);
 
@@ -28,28 +36,30 @@ const createUser = async (ctx) => {
 
 const resetPasswordEmail = async (ctx) => {
 	const { email = null } = ctx.request.body;
-	if (!email) {
-		response(ctx, 404, { mensagem: 'Email não encontrado'})
-	}
-	const user = await UsersRepository.getUserByEmail(email);
-	if (!user) {
+
+	validateEmail(ctx, email);
+	
+	const existingUser = await UsersRepository.getUserByEmail(email);
+
+	if (!existingUser) {
 		response(ctx, 404, { mensagem: 'Usuário não encontrado'})
 	}
+
 	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email, user.id));
 	return response(ctx, 200, { result: true });
 }
 
 const resetPassword = async (ctx) => {
 	const { userId = null } = ctx.request.body;
-	if (!userId) {
-		response(ctx, 404, { mensagem: 'Id não encontrado'})
-	} 
 	const { hash = null } = ctx.state;
+	
+	validateId(ctx, userId)
+	validateHash(ctx, hash);
+	
 	const oldPassword = await UsersRepository.getUserById(userId)
 	const newPassword = await UsersRepository.resetPassword({ senha: hash, userId });
-	if (oldPassword.senha === newPassword.senha) {
-		return response(ctx, 400, { mensagem: "Senha idêntica à anterior"})
-	}
+
+	validadteOldAndNewPassword(ctx, oldPassword, newPassword);
 	return response(ctx, 200, { result: true });
 };
 
