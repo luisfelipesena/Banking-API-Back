@@ -1,6 +1,14 @@
 const response = require('../utils/response');
 const ClientsRepository = require('../repositories/clients');
 const ChargesController = require('./charges');
+const { 
+	validateEmail, 
+	validateName, 
+	validateHash,
+	validateId,
+	validateDocument,
+	validatePhoneNumber,
+} = require('../helpers/helpers');
 
 const createClient = async (ctx) => {
 	const {
@@ -12,11 +20,11 @@ const createClient = async (ctx) => {
 
 	const { id = null } = ctx.state; // Esse Id é do usuário Logado no momento
 
-	if (!email || !cpf || !nome || !tel || !id) {
-		return response(ctx, 400, { mensagem: 'Cadastro mal formatado' });
-	} else if (tel.length !== 14 || cpf.length !== 14) {
-		return response(ctx, 400, { mensagem: 'Informações mal formatadas' });
-	}
+	validateEmail(ctx, email);
+	validateDocument(ctx, cpf);
+	validateName(ctx, nome);
+	validateId(ctx, id);
+	validatePhoneNumber(ctx, tel);
 
 	const existingClient = await ClientsRepository.getClientByEmail(email);
 
@@ -43,11 +51,11 @@ const editClient = async (ctx) => {
 		tel = null,
 	} = ctx.request.body;
 
-	if (!id || (!nome && !cpf && !email && !tel)) {
-		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
-	} else if (tel.length !== 14 || cpf.length !== 14) {
-		return response(ctx, 400, { mensagem: 'Informações mal formatadas' });
-	}
+	validateEmail(ctx, email);
+	validateDocument(ctx, cpf);
+	validateName(ctx, nome);
+	validateId(ctx, id);
+	validatePhoneNumber(ctx, tel);
 
 	const oldClient = await ClientsRepository.getClientById(id);
 	if (oldClient) {
@@ -98,7 +106,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 							id: client.id,
 							nome: client.nome,
 							email: client.email,
-							telefone: client.tel,
+							tel: client.tel,
 							cobrancasFeitas,
 							cobrancasRecebidas,
 							estaInadimplente,
