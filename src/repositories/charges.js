@@ -61,12 +61,13 @@ const getChargesByIdAndQuerys = async (id, offset, limit, busca) => {
 
 const createCharge = async (props) => {
 	const { idDoCliente, descricao, valor, vencimento } = props;
+	const data_de_criacao = new Date();
 	const query = `INSERT INTO cobrancas 
-					(id_do_cliente,descricao,valor,vencimento)
-					VALUES ($1,$2,$3,$4) RETURNING *`;
+					(id_do_cliente,descricao,valor,vencimento,data_de_criacao)
+					VALUES ($1,$2,$3,$4,$5) RETURNING *`;
 	const result = await db.query({
 		text: query,
-		values: [idDoCliente, descricao, valor, vencimento],
+		values: [idDoCliente, descricao, valor, vencimento, data_de_criacao],
 	});
 	return result.rows.shift();
 };

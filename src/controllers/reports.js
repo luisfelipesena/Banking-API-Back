@@ -1,11 +1,33 @@
 const ChargesRepository = require('../repositories/charges');
+const client = require('../utils/database');
 const response = require('../utils/response');
 const ClientsController = require('./clients');
 
 const getReports = async (ctx) => {
-	const clients = await ClientsController.listOrSearchClients(ctx, true);
-	const { periodo } = ctx.params;
-	const charges = await ChargesRepository.getCharges();
+	let clients = await ClientsController.listOrSearchClients(ctx, true);
+	const { tempT } = ctx.params;
+	let charges = await ChargesRepository.getCharges();
+	if (tempT === 'mes') {
+		clients = clients.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getMonth() === new Date().getMonth()
+		);
+		charges = charges.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getMonth() === new Date().getMonth()
+		);
+	} else if (tempT === 'ano') {
+		clients = clients.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getFullYear() ===
+				new Date().getFullYear()
+		);
+		charges = charges.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getFullYear() ===
+				new Date().getFullYear()
+		);
+	}
 	let [
 		qtdClientesAdimplentes,
 		qtdClientesInadimplentes,

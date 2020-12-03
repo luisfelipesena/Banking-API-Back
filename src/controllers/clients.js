@@ -1,9 +1,9 @@
 const response = require('../utils/response');
 const ClientsRepository = require('../repositories/clients');
 const ChargesController = require('./charges');
-const { 
-	validateEmail, 
-	validateName, 
+const {
+	validateEmail,
+	validateName,
 	validateHash,
 	validateId,
 	validateDocument,
@@ -110,6 +110,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 							cobrancasFeitas,
 							cobrancasRecebidas,
 							estaInadimplente,
+							data_de_criacao,
 						};
 					})
 				);

@@ -14,7 +14,8 @@ const schema = {
 		nome varchar(255) not null,
 		email varchar(255) not null,
 		cpf varchar(255) not null,
-		tel varchar(255) not null	
+		tel varchar(255) not null,
+		data_de_criacao date not null	
 	);`,
 
 	3: `CREATE TABLE IF NOT EXISTS cobrancas (
@@ -24,7 +25,8 @@ const schema = {
 		valor bigint not null,
 		vencimento date not null,
 		link_do_boleto varchar(255) default null,
-		data_de_pagamento date default null
+		data_de_pagamento date default null,
+		data_de_criacao date not null	
 	);`,
 };
 

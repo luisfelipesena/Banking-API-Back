@@ -24,12 +24,13 @@ const getClientById = async (id) => {
 
 const createClient = async (props) => {
 	const { nome, email, cpf, tel, user_id } = props;
+	const data_de_criacao = new Date();
 	const query = `INSERT INTO clients (
-					nome, email, cpf, tel, user_id
-					) VALUES ($1,$2,$3,$4,$5) RETURNING *`;
+					nome, email, cpf, tel, user_id,data_de_criacao
+					) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`;
 	const result = await db.query({
 		text: query,
-		values: [nome, email, cpf, tel, user_id],
+		values: [nome, email, cpf, tel, user_id, data_de_criacao],
 	});
 	return result.rows.shift();
 };
