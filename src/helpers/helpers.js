@@ -28,16 +28,19 @@ function validateName(ctx, name) {
     }
 }
 
-function validateHash(ctx, hash) {
-    if (!hash) {
-        return response(ctx, 404, { mensagem: 'Senha obrigatória' });
+function validateExistence(ctx, exist) {
+    if (!exist) {
+        return response(ctx, 404, { mensagem: 'Pedido mal formatado' });
     }
 }
 
-function validateId(ctx, id) {
-    if (!id) {
-        return response(ctx, 404, { mensagem: 'Id obrigatória' });
-    }
+function validateAmount(ctx, amount) {
+    if (!amout) {
+        return response(ctx, 404, { mensagem: 'Valor não encontrado' });
+    } 
+    if (Number(valor) <= 0) {
+		return response(ctx, 400, { mensagem: 'Valor mal formatado' });
+	}
 }
 
 function validadteOldAndNewPassword(ctx, oldPassword, newPassword) {
@@ -68,15 +71,27 @@ function validatePhoneNumber(ctx, phoneNumber) {
     if (!exp) {
         return response(ctx, 400, { mensagem: 'Telefone mal formatado' });
     }
-  }
+}
   
+function validateDate(ctx, year, month, day, dueDate) {
+    if (
+		!new Date(year, month, day) ||
+		dueDate.length !== 10 ||
+		+new Date(year, month - 1, day) < +new Date()
+	) {
+		return response(ctx, 400, {
+			mensagem: 'Data de vencimento mal formatada',
+		});
+	}
+}
 
 module.exports = { 
     validateEmail, 
     validateName, 
-    validateHash, 
-    validateId,
+    validateExistence,
     validadteOldAndNewPassword,
     validateDocument,
     validatePhoneNumber,
+    validateAmount,
+    validateDate,
 };

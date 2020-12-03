@@ -5,8 +5,7 @@ const Emails = require('./emails');
 const { 
 	validateEmail, 
 	validateName, 
-	validateHash,
-	validateId,
+	validateExistence,
 	validadteOldAndNewPassword
 } = require('../helpers/helpers');
 
@@ -14,7 +13,7 @@ const createUser = async (ctx) => {
 	const { email = null, nome = null } = ctx.request.body;
 	const { hash = null } = ctx.state;
 
-	validateHash(ctx, hash);
+	validateExistence(ctx, hash);
 	validateEmail(ctx, email);
 	validateName(ctx, nome);
 
@@ -53,8 +52,8 @@ const resetPassword = async (ctx) => {
 	const { userId = null } = ctx.request.body;
 	const { hash = null } = ctx.state;
 	
-	validateId(ctx, userId)
-	validateHash(ctx, hash);
+	validateExistence(ctx, userId)
+	validateExistence(ctx, hash);
 	
 	const oldPassword = await UsersRepository.getUserById(userId)
 	const newPassword = await UsersRepository.resetPassword({ senha: hash, userId });

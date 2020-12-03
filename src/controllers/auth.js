@@ -3,13 +3,20 @@ const response = require('../utils/response');
 const { comparison } = require('../utils/password');
 const UsersRepository = require('../repositories/users');
 require('dotenv').config();
+const { 
+	validateEmail, 
+	validateName,
+	validateDocument,
+	validatePhoneNumber,
+	validateExistence,
+} = require('../helpers/helpers');
 
 const authentication = async (ctx) => {
 	const { email = null, senha = null } = ctx.request.body;
-	if (!email || !senha) {
-		return response(ctx, 400, { mensagem: 'Login mal formatado' });
-	}
 
+	validateEmail(ctx, email);
+	validateExistence(ctx, senha);
+	
 	const existingUser = await UsersRepository.getUserByEmail(email);
 
 	if (existingUser) {

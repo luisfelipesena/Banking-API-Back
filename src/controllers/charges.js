@@ -4,6 +4,11 @@ const { sendEmail } = require('../utils/nodemailer');
 const Emails = require('./emails');
 const PagarMe = require('../utils/pagarme');
 const response = require('../utils/response');
+const {
+	validateExistence,
+	validateAmount,
+	validateDate,
+} = require('../helpers/helpers');
 
 const calculateCharges = async (id) => {
 	const charges = await ChargesRepository.getChargesByClientId(id);
@@ -35,20 +40,14 @@ const createCharge = async (ctx) => {
 		vencimento = null,
 	} = ctx.request.body;
 
+	validateExistence(ctx, idDoCliente)
+	validateExistence(ctx, descricao)
+	validateAmount(ctx, valor)
+	validateExistence(ctx, vencimento)
+	
 	const [ano, mes, dia] = vencimento.split('/').reverse();
-	if (!idDoCliente || !descricao || !valor || !vencimento) {
-		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
-	} else if (
-		!new Date(ano, mes, dia) ||
-		vencimento.length !== 10 ||
-		+new Date(ano, mes - 1, dia) < +new Date()
-	) {
-		return response(ctx, 400, {
-			mensagem: 'Data de vencimento mal formatada',
-		});
-	} else if (Number(valor) <= 0) {
-		return response(ctx, 400, { mensagem: 'Valor mal formatado' });
-	}
+
+	validateDate(ctx, ano, mes, dia, vencimento);
 
 	const client = await ClientsRepository.getClientById(idDoCliente);
 
