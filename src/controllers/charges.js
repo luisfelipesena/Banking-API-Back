@@ -129,6 +129,7 @@ const listCharges = async (ctx) => {
 					status = 'vencido';
 				}
 				return {
+					nome_do_cliente: c.nome,
 					id_do_cliente: c.id_do_cliente,
 					descricao: c.descricao,
 					valor: c.valor,
