@@ -28,7 +28,22 @@ const getChargesByClientId = async (id) => {
 	return result.rows;
 };
 
-const getChargesByIdAndQuerys = async (id, offset, limit) => {
+const getChargesByIdAndQuerys = async (id, offset, limit, busca) => {
+	if (busca) {
+		const query = `SELECT * FROM cobrancas as co
+					INNER JOIN clients as cl
+					ON co.id_do_cliente = cl.id::varchar
+					INNER JOIN users as us
+					ON us.id::varchar = cl.user_id
+					WHERE us.id=$1 AND (cl.nome LIKE '%${busca}%' OR cl.email LIKE '%${busca}%' OR cl.cpf LIKE '%${busca}%')
+					OFFSET $2
+					LIMIT $3`;
+		const result = await db.query({
+			text: query,
+			values: [id, offset, limit],
+		});
+		return result.rows;
+	}
 	const query = `SELECT * FROM cobrancas as co
 					INNER JOIN clients as cl
 					ON co.id_do_cliente = cl.id::varchar

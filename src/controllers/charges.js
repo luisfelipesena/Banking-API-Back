@@ -94,7 +94,11 @@ const createCharge = async (ctx) => {
 };
 
 const listCharges = async (ctx) => {
-	const { cobrancasPorPagina = null, offset = null } = ctx.query;
+	const {
+		cobrancasPorPagina = null,
+		offset = null,
+		busca = null,
+	} = ctx.query;
 	const { id } = ctx.state;
 	if (
 		!cobrancasPorPagina ||
@@ -108,7 +112,8 @@ const listCharges = async (ctx) => {
 	let charges = await ChargesRepository.getChargesByIdAndQuerys(
 		id,
 		offset,
-		cobrancasPorPagina
+		cobrancasPorPagina,
+		busca
 	);
 
 	if (charges) {
