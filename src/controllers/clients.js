@@ -126,7 +126,10 @@ const listOrSearchClients = async (ctx, reports = null) => {
 				const {
 					estaInadimplente,
 				} = await ChargesController.calculateCharges(client.id);
-				return { estaInadimplente };
+				return {
+					estaInadimplente,
+					data_de_criacao: client.data_de_criacao,
+				};
 			})
 		);
 
