@@ -43,7 +43,6 @@ const getChargesByIdAndQuerys = async (id, offset, limit, busca) => {
 			text: query,
 			values: [id, offset, limit],
 		});
-		console.log(query);
 		return result.rows;
 	}
 	const query = `SELECT * FROM cobrancas as co
