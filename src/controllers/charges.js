@@ -115,7 +115,6 @@ const listCharges = async (ctx) => {
 		cobrancasPorPagina,
 		busca
 	);
-
 	if (charges) {
 		return response(ctx, 200, {
 			cobrancas: charges.map((c) => {
