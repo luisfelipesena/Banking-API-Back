@@ -8,6 +8,7 @@ const usersController = require('./controllers/users');
 const clientsController = require('./controllers/clients');
 const chargesController = require('./controllers/charges');
 const reportsController = require('./controllers/reports');
+const graphicController = require('./controllers/graphic');
 
 const sessionMiddleware = require('./middlewares/session');
 const encryptMiddleware = require('./middlewares/encrypt');
@@ -31,5 +32,6 @@ router.get('/cobrancas', sessionMiddleware, chargesController.listCharges);
 router.put('/cobrancas', sessionMiddleware, chargesController.payCharge);
 
 router.get('/relatorios', sessionMiddleware, reportsController.getReports);
+router.get('/grafico', sessionMiddleware, graphicController.getGraphic);
 
 module.exports = router;
