@@ -30,7 +30,8 @@ const getChargesByClientId = async (id) => {
 
 const getChargesByIdAndQuerys = async (id, offset, limit, busca) => {
 	if (busca) {
-		const query = `SELECT * FROM cobrancas as co
+		const query = `SELECT cl.nome ,co.descricao , co.valor,co.vencimento,co.link_do_boleto , co.data_de_pagamento
+				 	FROM cobrancas as co
 					INNER JOIN clients as cl
 					ON co.id_do_cliente = cl.id::varchar
 					INNER JOIN users as us
@@ -42,6 +43,7 @@ const getChargesByIdAndQuerys = async (id, offset, limit, busca) => {
 			text: query,
 			values: [id, offset, limit],
 		});
+		console.log(query);
 		return result.rows;
 	}
 	const query = `SELECT * FROM cobrancas as co

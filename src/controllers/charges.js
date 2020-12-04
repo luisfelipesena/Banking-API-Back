@@ -99,6 +99,7 @@ const listCharges = async (ctx) => {
 		offset = null,
 		busca = null,
 	} = ctx.query;
+	console.log(busca);
 	const { id } = ctx.state;
 	if (
 		!cobrancasPorPagina ||
