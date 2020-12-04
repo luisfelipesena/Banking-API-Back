@@ -28,6 +28,20 @@ const getChargesByClientId = async (id) => {
 	return result.rows;
 };
 
+const getChargesByUserId = async (id) => {
+	const query = `SELECT * FROM cobrancas as co
+	INNER JOIN clients as cl
+	on co.id_do_cliente = cl.id::varchar
+	inner join users as us
+	on us.id::varchar = cl.user_id
+	WHERE us.id = $1`;
+	const result = await db.query({
+		text: query,
+		values: [id],
+	});
+	return result.rows;
+};
+
 const getChargesByIdAndQuerys = async (id, offset, limit, busca) => {
 	if (busca) {
 		const query = `SELECT cl.nome ,co.descricao , co.valor,co.vencimento,co.link_do_boleto , co.data_de_pagamento
@@ -101,6 +115,7 @@ module.exports = {
 	getCharges,
 	getChargesById,
 	getChargesByClientId,
+	getChargesByUserId,
 	getChargesByIdAndQuerys,
 	createCharge,
 	inserirLinkBoleto,

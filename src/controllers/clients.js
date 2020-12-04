@@ -92,7 +92,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 			id,
 			busca,
 		});
-		if (result) {
+		if (result && id) {
 			if (!busca) {
 				const newResult = await Promise.all(
 					result.map(async (client) => {
@@ -119,7 +119,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 				return response(ctx, 200, { clientes: result });
 			}
 		}
-	} else if (reports) {
+	} else if (reports && id) {
 		const clients = await ClientsRepository.listAllClients(id);
 		const newResult = await Promise.all(
 			clients.map(async (client) => {

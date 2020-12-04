@@ -4,8 +4,14 @@ const ClientsController = require('./clients');
 
 const getReports = async (ctx) => {
 	const { tempT } = ctx.query;
+	const { id = null } = ctx.state;
 	let clients = await ClientsController.listOrSearchClients(ctx, true);
-	let charges = await ChargesRepository.getCharges();
+	let charges = await ChargesRepository.getChargesByUserId(id);
+	console.log(charges);
+	if (clients.status || !charges) {
+		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
+	}
+
 	if (tempT === 'mes') {
 		clients = clients.filter(
 			(c) =>
