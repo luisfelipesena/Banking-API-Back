@@ -32,9 +32,9 @@ const getChargesByUserId = async (id) => {
 	const query = `SELECT * FROM cobrancas as co
 	INNER JOIN clients as cl
 	on co.id_do_cliente = cl.id::varchar
-	inner join users as us
+	INNER JOIN users as us
 	on us.id::varchar = cl.user_id
-	WHERE us.id = $1`;
+	WHERE us.id=$1`;
 	const result = await db.query({
 		text: query,
 		values: [id],

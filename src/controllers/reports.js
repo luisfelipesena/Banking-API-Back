@@ -7,7 +7,6 @@ const getReports = async (ctx) => {
 	const { id = null } = ctx.state;
 	let clients = await ClientsController.listOrSearchClients(ctx, true);
 	let charges = await ChargesRepository.getChargesByUserId(id);
-	console.log(charges);
 	if (clients.status || !charges) {
 		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
 	}
