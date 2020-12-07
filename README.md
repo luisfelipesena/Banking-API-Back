@@ -62,6 +62,57 @@ Esta Api utiliza uma integração com a [pagarme](https://docs.pagar.me/docs/rea
 }
 ```
 
+## Envio de email para trocar senha
+
+**URL:** `/resetPasswordEmail`
+
+**Método:** POST
+
+**Entrada:**
+
+```json=
+{
+	"email": "user@email.com",
+}
+```
+
+**Saída de sucesso:**
+
+```javascript=
+{
+    status: 200,
+    dados: {
+        result: "true"
+    }
+}
+```
+
+## Trocar senha
+
+**URL:** `/resetPassword`
+
+**Método:** PUT
+
+**Entrada:**
+
+```json=
+{
+	"id": "2",
+    "senha": "102030"
+}
+```
+
+**Saída de sucesso:**
+
+```javascript=
+{
+    status: 200,
+    dados: {
+        result: "true"
+    }
+}
+```
+
 ## Criar cliente
 
 **URL:** `/clientes`

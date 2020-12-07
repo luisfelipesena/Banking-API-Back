@@ -44,7 +44,7 @@ const resetPasswordEmail = async (ctx) => {
 		response(ctx, 404, { mensagem: 'Usuário não encontrado'})
 	}
 
-	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email, user.id));
+	sendEmail(email, 'Usuário encaminhado para troca de senha', Emails.resetPassword(email, existingUser.id));
 	return response(ctx, 200, { result: true });
 }
 
