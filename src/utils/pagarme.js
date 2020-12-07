@@ -1,9 +1,10 @@
 const pagarme = require('pagarme');
+const unmaskCpf = require('node-cpf');
 require('dotenv').config();
 
 const gerarBoleto = async (props) => {
 	const { amount, nome, cpf, email, tel } = props;
-
+	console.log(cpf, unmaskCpf.unMask(cpf));
 	const client = await pagarme.client.connect({
 		api_key: `${process.env.API_KEY}`,
 	});
@@ -21,7 +22,7 @@ const gerarBoleto = async (props) => {
 			documents: [
 				{
 					type: 'cpf',
-					number: `${cpf}`,
+					number: `${unmaskCpf.unMask(cpf)}`,
 				},
 			],
 		},

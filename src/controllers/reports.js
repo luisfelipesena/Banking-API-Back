@@ -3,9 +3,45 @@ const response = require('../utils/response');
 const ClientsController = require('./clients');
 
 const getReports = async (ctx) => {
-	const clients = await ClientsController.listOrSearchClients(ctx, true);
-	const { periodo } = ctx.params;
-	const charges = await ChargesRepository.getCharges();
+	const { tempT } = ctx.query;
+	const { id = null } = ctx.state;
+	let clients = await ClientsController.listOrSearchClients(ctx, true);
+	let charges = await ChargesRepository.getChargesByUserId(id);
+	if (clients.status || !charges) {
+		return response(ctx, 400, { mensagem: 'Pedido mal formatado' });
+	}
+
+	if (tempT === 'mes') {
+		clients = clients.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getMonth() === new Date().getMonth()
+		);
+		charges = charges.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getMonth() === new Date().getMonth()
+		);
+	} else if (tempT === 'ano') {
+		clients = clients.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getFullYear() ===
+				new Date().getFullYear()
+		);
+		charges = charges.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getFullYear() ===
+				new Date().getFullYear()
+		);
+	} else if (tempT === 'dia') {
+		clients = clients.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getDate() === new Date().getDate()
+		);
+		charges = charges.filter(
+			(c) =>
+				new Date(c.data_de_criacao).getDate() === new Date().getDate()
+		);
+	}
+
 	let [
 		qtdClientesAdimplentes,
 		qtdClientesInadimplentes,

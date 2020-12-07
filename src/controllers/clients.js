@@ -1,9 +1,11 @@
 const response = require('../utils/response');
 const ClientsRepository = require('../repositories/clients');
 const ChargesController = require('./charges');
-const { 
-	validateEmail, 
+const {
+	validateEmail,
 	validateName,
+	validateHash,
+	validateId,
 	validateDocument,
 	validatePhoneNumber,
 	validateExistence,
@@ -91,7 +93,7 @@ const listOrSearchClients = async (ctx, reports = null) => {
 			id,
 			busca,
 		});
-		if (result) {
+		if (result && id) {
 			if (!busca) {
 				const newResult = await Promise.all(
 					result.map(async (client) => {
@@ -118,14 +120,17 @@ const listOrSearchClients = async (ctx, reports = null) => {
 				return response(ctx, 200, { clientes: result });
 			}
 		}
-	} else if (reports) {
+	} else if (reports && id) {
 		const clients = await ClientsRepository.listAllClients(id);
 		const newResult = await Promise.all(
 			clients.map(async (client) => {
 				const {
 					estaInadimplente,
 				} = await ChargesController.calculateCharges(client.id);
-				return { estaInadimplente };
+				return {
+					estaInadimplente,
+					data_de_criacao: client.data_de_criacao,
+				};
 			})
 		);
 
