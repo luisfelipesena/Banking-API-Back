@@ -14,7 +14,7 @@ const createUser = async (ctx) => {
 	const { email = null, nome = null } = ctx.request.body;
 	const { hash = null } = ctx.state;
 
-	validateHash(ctx, hash);
+	validateExistence(ctx, hash);
 	validateEmail(ctx, email);
 	validateName(ctx, nome);
 

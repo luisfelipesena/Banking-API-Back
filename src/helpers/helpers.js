@@ -28,6 +28,21 @@ function validateName(ctx, name) {
 	}
 }
 
+function validateExistence(ctx, exist) {
+    if (!exist) {
+        return response(ctx, 404, { mensagem: 'Pedido mal formatado' });
+    }
+}
+
+function validateAmount(ctx, amount) {
+    if (!amout) {
+        return response(ctx, 404, { mensagem: 'Valor não encontrado' });
+    } 
+    if (Number(valor) <= 0) {
+		return response(ctx, 400, { mensagem: 'Valor mal formatado' });
+	}
+}
+
 function validateHash(ctx, hash) {
 	if (!hash) {
 		return response(ctx, 404, { mensagem: 'Senha obrigatória' });
@@ -74,4 +89,5 @@ module.exports = {
 	validadteOldAndNewPassword,
 	validateDocument,
 	validatePhoneNumber,
+	validateExistence,
 };

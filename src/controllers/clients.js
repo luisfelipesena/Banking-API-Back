@@ -8,6 +8,7 @@ const {
 	validateId,
 	validateDocument,
 	validatePhoneNumber,
+	validateExistence,
 } = require('../helpers/helpers');
 
 const createClient = async (ctx) => {
@@ -23,7 +24,7 @@ const createClient = async (ctx) => {
 	validateEmail(ctx, email);
 	validateDocument(ctx, cpf);
 	validateName(ctx, nome);
-	validateId(ctx, id);
+	validateExistence(ctx, id);
 	validatePhoneNumber(ctx, tel);
 
 	const existingClient = await ClientsRepository.getClientByEmail(email);
@@ -54,7 +55,7 @@ const editClient = async (ctx) => {
 	validateEmail(ctx, email);
 	validateDocument(ctx, cpf);
 	validateName(ctx, nome);
-	validateId(ctx, id);
+	validateExistence(ctx, id);
 	validatePhoneNumber(ctx, tel);
 
 	const oldClient = await ClientsRepository.getClientById(id);
